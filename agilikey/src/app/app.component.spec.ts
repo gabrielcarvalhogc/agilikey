@@ -17,6 +17,6 @@ describe('AppComponent', () => {
   it(`should have the 'agilikey' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('agilikey');
+    expect(app.title).toEqual('Agilikey');
   });
 });
