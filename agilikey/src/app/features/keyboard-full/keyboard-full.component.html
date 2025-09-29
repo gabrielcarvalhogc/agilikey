@@ -1,0 +1,49 @@
+<div class="keyboard-full-container">
+  <div class="stats-panel">
+    <div class="stat">
+      <span class="stat-label">Corretas:</span>
+      <span class="stat-value correct">{{ stats.correct }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Erros:</span>
+      <span class="stat-value incorrect">{{ stats.incorrect }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Precisão:</span>
+      <span class="stat-value">{{ getAccuracy() }}%</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">PPM:</span>
+      <span class="stat-value">{{ stats.wpm }}</span>
+    </div>
+    <button class="reset-btn" (click)="resetExercise()">Novo Exercício</button>
+  </div>
+
+  <div class="practice-area">
+    <div class="target-text">
+      <span>
+        {{ targetText }}
+      </span>
+    </div>
+
+  </div>
+
+  <div class="keyboard">
+    @for (row of [1, 2, 3, 4, 5]; track $index) {
+      <div class="keyboard-row">
+        @for (key of getKeysForRow(row); track $index) {
+          <div
+            class="key"
+            [class.pressed]="pressedKeys.has(key.id)"
+            [class.highlight]="key.id === getNextKeyToPress()"
+            [attr.data-finger]="key.finger"
+            [style.flex]="key.width || 1"
+          >
+            <span class="key-upper" *ngIf="key.upperLabel">{{ key.upperLabel }}</span>
+            <span class="key-main">{{ key.label }}</span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
