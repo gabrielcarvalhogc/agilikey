@@ -39,7 +39,9 @@
             [attr.data-finger]="key.finger"
             [style.flex]="key.width || 1"
           >
-            <span class="key-upper" *ngIf="key.upperLabel">{{ key.upperLabel }}</span>
+            @if (key.upperLabel) {
+              <span class="key-upper">{{ key.upperLabel }}</span>
+            }
             <span class="key-main">{{ key.label }}</span>
           </div>
         }
