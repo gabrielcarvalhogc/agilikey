@@ -52,7 +52,7 @@
   background: #1a1a1a;
   padding: 30px;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'Courier New', monospace;
   letter-spacing: 2px;
   line-height: 1.8;
@@ -66,24 +66,22 @@
 
 .target-text span {
   color: #666;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 
 .target-text span.current {
   color: #fff;
-  background: #3b82f6;
-  padding: 2px 4px;
-  border-radius: 3px;
+  text-decoration: underline;
   animation: pulse 1s infinite;
 }
 
 .target-text span.correct {
-  color: #4ade80;
+  color: #fff;
 }
 
 .target-text span.incorrect {
   color: #f87171;
-  background: rgba(248, 113, 113, 0.2);
+  text-decoration: underline;
 }
 
 @keyframes pulse {

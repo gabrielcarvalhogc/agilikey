@@ -21,9 +21,14 @@
 
   <div class="practice-area">
     <div class="target-text">
-      <span>
-        {{ targetText }}
-      </span>
+      @for (char of targetText.split(''); track $index) {
+        <span
+          [class.correct]="characterStates[$index] === 'correct'"
+          [class.incorrect]="characterStates[$index] === 'incorrect'"
+          [class.current]="$index === currentIndex">
+          {{ char === ' ' ? '\u00A0' : char }}
+        </span>
+      }
     </div>
 
   </div>

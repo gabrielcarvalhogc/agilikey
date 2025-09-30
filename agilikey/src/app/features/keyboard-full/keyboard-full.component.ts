@@ -31,6 +31,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
   targetText = 'o rato roeu a roupa do rei de roma';
   typedText = '';
   currentIndex = 0;
+  characterStates: ('pending' | 'correct' | 'incorrect')[] = [];
 
   stats: TypingStats = {
     correct: 0,
@@ -188,6 +189,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
       if (this.currentIndex > 0) {
         this.currentIndex--;
         this.typedText = this.typedText.slice(0, -1);
+        this.characterStates[this.currentIndex] = 'pending';
       }
       return;
     }
@@ -201,8 +203,10 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
 
     if (isCorrect) {
       this.stats.correct++;
+      this.characterStates[this.currentIndex] = 'correct';
     } else {
       this.stats.incorrect++;
+      this.characterStates[this.currentIndex] = 'incorrect';
     }
 
     this.currentIndex++;
@@ -234,6 +238,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     this.currentIndex = 0;
     this.stats = { correct: 0, incorrect: 0, wpm: 0 };
     this.startTime = undefined;
+    this.characterStates = Array(this.targetText.length).fill('pending');
   }
 
   getAccuracy(): number {
