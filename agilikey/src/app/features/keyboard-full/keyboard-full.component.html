@@ -30,7 +30,6 @@
         </span>
       }
     </div>
-
   </div>
 
   <div class="keyboard">
@@ -40,7 +39,8 @@
           <div
             class="key"
             [class.pressed]="pressedKeys.has(key.id)"
-            [class.highlight]="key.id === getNextKeyToPress()"
+            [class.highlight]="nextKeysToHighlight.includes(key.id)"
+            [class.shift-active]="isShiftPressed && (key.id === 'shiftleft' || key.id === 'shiftright')"
             [attr.data-finger]="key.finger"
             [style.flex]="key.width || 1"
           >

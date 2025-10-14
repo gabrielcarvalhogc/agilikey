@@ -1,5 +1,3 @@
-import type { Key } from '../keyboard/key-types';
-
 const SPECIAL_CHARS: Record<string,string> = {
   'ç': 'ccedil',
   ',': 'comma',

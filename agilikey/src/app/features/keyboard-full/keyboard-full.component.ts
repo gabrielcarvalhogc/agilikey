@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Key, TypingStats } from '../../shared/keyboard/key-types';
 import { initializeKeyboard } from '../../shared/keyboard/initialize-keyboard';
 import { getKeyId } from '../../shared/utils/get-key-id';
+
 @Component({
   selector: 'app-keyboard-full',
   standalone: true,
@@ -10,8 +11,7 @@ import { getKeyId } from '../../shared/utils/get-key-id';
   templateUrl: './keyboard-full.component.html',
   styleUrl: './keyboard-full.component.scss',
 })
-
-export class KeyboardFullComponent implements OnInit, OnDestroy {
+export class KeyboardFullComponent implements OnInit {
   keys: Key[] = [];
   pressedKeys = new Set<string>();
 
@@ -19,6 +19,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
   typedText = '';
   currentIndex = 0;
   characterStates: ('pending' | 'correct' | 'incorrect')[] = [];
+  isShiftPressed = false;
 
   stats: TypingStats = {
     correct: 0,
@@ -28,20 +29,18 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
 
   private startTime?: number;
   private readonly exercises = [
-    'o rato roeu a roupa do rei de roma',
-    'a pratica leva a perfeicao',
-    'devagar e sempre se vai longe',
+    'O Rato roeu a roupa do rei de roma',
+    'A Pratica leva a perfeicao',
+    'Devagar e Sempre se vai longe',
     'quem tem boca vai a roma',
     'mais vale um passaro na mao que dois voando',
-    'agua mole em pedra dura tanto bate ate que fura'
+    'agua mole em pedra dura tanto bate ate que fura',
   ];
 
   ngOnInit() {
     this.keys = initializeKeyboard();
     this.resetExercise();
   }
-
-  ngOnDestroy() {}
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -50,6 +49,12 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     const keyId = getKeyId(event);
     if (keyId) {
       this.pressedKeys.add(keyId);
+
+      if (event.key === 'Shift') {
+        this.isShiftPressed = true;
+        return;
+      }
+
       this.handleTyping(event.key);
     }
   }
@@ -59,10 +64,16 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     const keyId = getKeyId(event);
     if (keyId) {
       this.pressedKeys.delete(keyId);
+
+      if (event.key === 'Shift') {
+        this.isShiftPressed = false;
+      }
     }
   }
 
   private handleTyping(key: string) {
+    if (key === 'Shift') return;
+
     if (!this.startTime) {
       this.startTime = Date.now();
     }
@@ -103,7 +114,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     if (!this.startTime) return;
 
     const minutes = (Date.now() - this.startTime) / 60000;
-    const words = this.currentIndex / 5; // Média de 5 caracteres por palavra
+    const words = this.currentIndex / 5;
     this.stats.wpm = Math.round(words / minutes);
   }
 
@@ -130,12 +141,21 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
   }
 
   getNextKeyToPress(): string | null {
-    if (this.currentIndex >= this.targetText.length) return null;
+    const keys = this.getNextKeysToHighlight();
+    return keys.length > 0 ? keys[keys.length - 1] : null;
+  }
 
-    const nextChar = this.targetText[this.currentIndex].toLowerCase();
+  getNextKeysToHighlight(): string[] {
+    if (this.currentIndex >= this.targetText.length) return [];
 
-    if (nextChar === ' ') return 'space';
-    if (nextChar === 'ç') return 'ccedil';
+    const nextChar = this.targetText[this.currentIndex];
+    const keys: string[] = [];
+
+    if (/[A-Z]/.test(nextChar)) {
+      keys.push('shiftleft');
+    }
+
+    const lowerChar = nextChar.toLowerCase();
 
     const specialChars: { [key: string]: string } = {
       ',': 'comma',
@@ -146,7 +166,21 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
       '-': 'minus'
     };
 
-    return specialChars[nextChar] || nextChar;
+    if (lowerChar === ' ') {
+      keys.push('space');
+    } else if (lowerChar === 'ç') {
+      keys.push('ccedil');
+    } else if (specialChars[lowerChar]) {
+      keys.push(specialChars[lowerChar]);
+    } else if (/[a-z]/.test(lowerChar)) {
+      keys.push(lowerChar);
+    }
+
+    return keys;
+  }
+
+  get nextKeysToHighlight(): string[] {
+    return this.getNextKeysToHighlight();
   }
 
   getKeysForRow(row: number): Key[] {
