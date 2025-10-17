@@ -1,0 +1,62 @@
+ul {
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  height: 100px;
+  padding: 20px;
+  font-size: 20px;
+  border: none;
+  box-sizing: border-box;
+}
+
+.simple-keyboard {
+  max-width: 850px;
+  color: white;
+}
+
+.simple-keyboard.hg-layout-default .hg-button {
+  border-radius: 4px;
+  margin: 0 1px 0 0;
+  box-sizing: border-box;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.hg-red {
+  background: rgb(255, 0, 0, 0.7);
+}
+.simple-keyboard.hg-layout-default .hg-button.anelar {
+  background: rgb(0, 0, 255, 0.7);
+}
+.simple-keyboard.hg-layout-default .hg-button.dedo-medio {
+  background: rgb(0, 255, 0, 0.7);
+}
+.simple-keyboard.hg-layout-default .hg-button.indicador-esquerdo {
+  background: rgb(255, 255, 0, 0.7);
+}
+.simple-keyboard.hg-layout-default .hg-button.indicador-direito {
+  background: rgba(0, 255, 242, 0.7);
+}
+.simple-keyboard.hg-layout-default .hg-button.polegar {
+  background: rgb(255, 165, 0, 0.7);
+}
+
+.simple-keyboard.hg-layout-default .hg-button.wide-tab {
+  width: 30px;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.wide-lock {
+  width: 70px;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.wide-shift {
+  width: 35px;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.wide-space {
+  width: 320px;
+}
+
+.simple-keyboard.hg-layout-default .hg-button.wide-bksp {
+  width: 40px;
+}
