@@ -17,6 +17,7 @@ export class SimpleKeyboardComponent implements AfterViewInit {
     this.keyboard = new Keyboard({
       onChange: input => this.onChange(input),
       onKeyPress: button => this.onKeyPress(button),
+      physicalKeyboardHighlight: true,
       theme: "hg-theme-default hg-layout-default myTheme",
       layout: {
         default: [
@@ -44,7 +45,7 @@ export class SimpleKeyboardComponent implements AfterViewInit {
       },
       buttonTheme: [
         {
-          class: "hg-red",
+          class: "dedo-minimo",
           buttons: "` 1 {tab} q {lock} a {shift} \\ z Ctrl Alt 0 - = {bksp} p ' [ ç ~ ] {enter} ; / {shift}"
         },
         {
