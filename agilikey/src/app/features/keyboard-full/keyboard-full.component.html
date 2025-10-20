@@ -31,26 +31,5 @@
       }
     </div>
   </div>
-
-  <div class="keyboard">
-    @for (row of [1, 2, 3, 4, 5]; track $index) {
-      <div class="keyboard-row">
-        @for (key of getKeysForRow(row); track $index) {
-          <div
-            class="key"
-            [class.pressed]="pressedKeys.has(key.id)"
-            [class.highlight]="nextKeysToHighlight.includes(key.id)"
-            [class.shift-active]="isShiftPressed && (key.id === 'shiftleft' || key.id === 'shiftright')"
-            [attr.data-finger]="key.finger"
-            [style.flex]="key.width || 1"
-          >
-            @if (key.upperLabel) {
-              <span class="key-upper">{{ key.upperLabel }}</span>
-            }
-            <span class="key-main">{{ key.label }}</span>
-          </div>
-        }
-      </div>
-    }
-  </div>
+  <app-simple-keyboard></app-simple-keyboard>
 </div>
