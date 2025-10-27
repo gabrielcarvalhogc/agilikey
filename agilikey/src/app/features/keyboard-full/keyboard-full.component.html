@@ -30,6 +30,16 @@
         </span>
       }
     </div>
+
+    <input
+      type="text"
+      [(ngModel)]="typedText"
+      class="typing-input"
+      (input)="onInputChange()"
+      placeholder="Digite aqui..."
+      autofocus
+    />
   </div>
+
   <app-simple-keyboard></app-simple-keyboard>
 </div>
