@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TypingStats } from '../../shared/keyboard/key-types';
 import { SimpleKeyboardComponent } from "../simple-keyboard/simple-keyboard.component";
+import { TimerService } from '../../services/TimerService';
+import { calculateAccuracy, calculateWPM } from '../../shared/utils/calculateStats';
 
 @Component({
   selector: 'app-keyboard-full',
@@ -18,7 +20,11 @@ export class KeyboardFullComponent implements OnInit {
   currentIndex = 0;
   characterStates: ('pending' | 'correct' | 'incorrect')[] = [];
   stats: TypingStats = { correct: 0, incorrect: 0, wpm: 0 };
-  private startTime?: number;
+  accuracy: number = 100;
+
+  private totalErrors = 0;
+  private previousLength = 0;
+  private totalKeystrokesTyped = 0;
 
   private readonly exercises = [
     'O rato roeu a roupa do rei de Roma',
@@ -29,17 +35,40 @@ export class KeyboardFullComponent implements OnInit {
     'Água mole em pedra dura tanto bate até que fura',
   ];
 
+  constructor(
+    readonly timer: TimerService
+  ) {}
+
   ngOnInit() {
     this.resetExercise();
   }
 
   onInputChange() {
-    if (!this.startTime) this.startTime = Date.now();
+    this.timer.start();
+    const elapsedMinutes = this.timer.getSeconds() / 60;
+    this.stats.wpm = calculateWPM(this.stats.correct, this.totalErrors, elapsedMinutes);
+    this.accuracy = calculateAccuracy(this.stats.correct, this.stats.correct + this.stats.incorrect)
 
     const combined = this.fullTyped + this.typedText;
+    const currentLength = combined.length;
+
+    const isTyping = currentLength > this.previousLength;
+
+    if (isTyping) {
+      this.totalKeystrokesTyped++;
+
+      const lastTypedIndex = currentLength - 1;
+      const expectedChar = this.targetText[lastTypedIndex];
+      const typedChar = combined[lastTypedIndex];
+
+      if (typedChar !== expectedChar) {
+        this.totalErrors++;
+      }
+    }
+
+    this.previousLength = currentLength;
     this.updateCharacterStates(combined);
     this.updateStats();
-    this.updateWPM();
 
     if (this.shouldClearInput()) {
       this.fullTyped += this.typedText;
@@ -60,7 +89,7 @@ export class KeyboardFullComponent implements OnInit {
 
   private updateStats() {
     this.stats.correct = this.characterStates.filter(c => c === 'correct').length;
-    this.stats.incorrect = this.characterStates.filter(c => c === 'incorrect').length;
+    this.stats.incorrect = this.totalErrors;
   }
 
   private shouldClearInput(): boolean {
@@ -71,35 +100,36 @@ export class KeyboardFullComponent implements OnInit {
     return lastChar === ' ' && !hasErrors;
   }
 
-  private updateWPM() {
-    if (!this.startTime) return;
-    const minutes = (Date.now() - this.startTime) / 60000;
-    this.stats.wpm = Math.round((this.currentIndex / 5) / minutes);
-  }
-
   private completeExercise() {
+    this.timer.stop();
+
     setTimeout(() => {
-      alert(`Exercício completo!\nPrecisão: ${this.getAccuracy()}%\nPPM: ${this.stats.wpm}`);
+      const message = `Exercício completo!\n` +
+        `Precisão: ${this.accuracy}%\n` +
+        `WPM: ${this.stats.wpm}\n` +
+        `Erros totais: ${this.totalErrors}\n` +
+        `Caracteres corretos: ${this.stats.correct}\n` +
+        `Tempo: ${this.timer.format()}`;
+      alert(message);
       this.resetExercise();
     }, 300);
   }
 
   resetExercise() {
+    this.timer.reset();
+
     this.targetText = this.randomExercise();
     this.typedText = '';
     this.fullTyped = '';
     this.currentIndex = 0;
     this.stats = { correct: 0, incorrect: 0, wpm: 0 };
-    this.startTime = undefined;
     this.characterStates = new Array(this.targetText.length).fill('pending');
+    this.totalErrors = 0;
+    this.previousLength = 0;
+    this.totalKeystrokesTyped = 0;
   }
 
   private randomExercise() {
     return this.exercises[Math.floor(Math.random() * this.exercises.length)];
-  }
-
-  getAccuracy(): number {
-    const total = this.stats.correct + this.stats.incorrect;
-    return total ? Math.round((this.stats.correct / total) * 100) : 100;
   }
 }

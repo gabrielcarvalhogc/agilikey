@@ -10,11 +10,15 @@
     </div>
     <div class="stat">
       <span class="stat-label">Precisão:</span>
-      <span class="stat-value">{{ getAccuracy() }}%</span>
+      <span class="stat-value">{{ accuracy }}%</span>
     </div>
     <div class="stat">
       <span class="stat-label">PPM:</span>
       <span class="stat-value">{{ stats.wpm }}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Tempo: </span>
+      <span class="stat-value">{{ timer.format() }}</span>
     </div>
     <button class="reset-btn" (click)="resetExercise()">Novo Exercício</button>
   </div>

@@ -80,12 +80,9 @@ export class SimpleKeyboardComponent implements AfterViewInit {
 
   onChange = (input: string) => {
     this.value = input;
-    console.log("Input changed", input);
   };
 
   onKeyPress = (button: string) => {
-    console.log("Button pressed", button);
-
     if (button === "{shift}" || button === "{lock}") this.handleShift();
   };
 
