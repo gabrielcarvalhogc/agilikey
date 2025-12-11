@@ -16,6 +16,8 @@ describe('KeyboardFullComponent', () => {
     fixture = TestBed.createComponent(KeyboardFullComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    component.fullTyped = '';
   });
 
     it('should create', () => {
@@ -30,44 +32,29 @@ describe('KeyboardFullComponent', () => {
 
     it('should start with a ramdom text', () => {
       expect(component.targetText).toBeTruthy();
-      expect(component.targetText.length).toBeGreaterThan(0);
-    });
-
-    it('should tipe correct word', () => {
-      for (const char of word) {
-        const event = new KeyboardEvent('keydown', { key: char });
-        globalThis.dispatchEvent(event);
-        fixture.detectChanges();
-      }
-
-      expect(component.typedText).toBe(word);
-    });
-
-    it('should increment correct when a correct letter is pressed', () => {
       component.targetText = word;
-
-      for (const char of word) {
-        const event = new KeyboardEvent('keydown', { key: char });
-        globalThis.dispatchEvent(event);
-        fixture.detectChanges();
+      component.typedText = '';
+      for (let letter of word) {
+        component.typedText += letter;
+        component.onInputChange();
       }
 
-      expect(component.typedText).toBe(word);
+      expect(component.targetText).toBe(component.typedText);
       expect(component.stats.correct).toBe(word.length);
+      expect(component.stats.incorrect).toBe(0);
     });
 
-    it('should increment correct when a correct letter is pressed', () => {
+    it('should increment incorrect when a incorrect letter is pressed', () => {
       component.targetText = word;
-
       const wrongWord = 'tast';
-      for (const char of wrongWord) {
-        const event = new KeyboardEvent('keydown', { key: char });
-        globalThis.dispatchEvent(event);
-        fixture.detectChanges();
+      component.typedText = '';
+      for (let letter of wrongWord) {
+        component.typedText += letter;
+        component.onInputChange();
       }
 
-      expect(component.typedText).toBe(wrongWord);
-      expect(component.stats.correct).toBe(3);
+      expect(component.targetText).not.toBe(component.typedText);
+      expect(component.stats.correct).toBe(word.length - 1);
       expect(component.stats.incorrect).toBe(1);
     });
 });
