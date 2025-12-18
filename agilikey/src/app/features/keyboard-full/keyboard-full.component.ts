@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TypingStats } from '../../shared/keyboard/key-types';
@@ -13,7 +13,7 @@ import { calculateAccuracy, calculateWPM } from '../../shared/utils/calculateSta
   templateUrl: './keyboard-full.component.html',
   styleUrl: './keyboard-full.component.scss',
 })
-export class KeyboardFullComponent implements OnInit {
+export class KeyboardFullComponent implements OnInit, OnDestroy {
   targetText = '';
   typedText = '';
   fullTyped = '';
@@ -21,10 +21,13 @@ export class KeyboardFullComponent implements OnInit {
   characterStates: ('pending' | 'correct' | 'incorrect')[] = [];
   stats: TypingStats = { correct: 0, incorrect: 0, wpm: 0 };
   accuracy: number = 100;
+  displayTime: string = '00:00';
 
   private totalErrors = 0;
   private previousLength = 0;
   private totalKeystrokesTyped = 0;
+  private updateInterval: any;
+  private isRunning = false;
 
   private readonly exercises = [
     'O rato roeu a roupa do rei de Roma',
@@ -43,11 +46,18 @@ export class KeyboardFullComponent implements OnInit {
     this.resetExercise();
   }
 
+  ngOnDestroy() {
+    this.stopUpdateLoop();
+  }
+
   onInputChange() {
-    this.timer.start();
-    const elapsedMinutes = this.timer.getSeconds() / 60;
-    this.stats.wpm = calculateWPM(this.stats.correct, this.totalErrors, elapsedMinutes);
-    this.accuracy = calculateAccuracy(this.stats.correct, this.stats.correct + this.stats.incorrect)
+    if (!this.isRunning) {
+      this.timer.start();
+      this.startUpdateLoop();
+      this.isRunning = true;
+    }
+
+    this.updateLiveStats();
 
     const combined = this.fullTyped + this.typedText;
     const currentLength = combined.length;
@@ -78,6 +88,30 @@ export class KeyboardFullComponent implements OnInit {
     if (this.currentIndex >= this.targetText.length) this.completeExercise();
   }
 
+  private startUpdateLoop() {
+    this.stopUpdateLoop();
+
+    this.updateInterval = setInterval(() => {
+      this.displayTime = this.timer.format();
+      this.updateLiveStats();
+    }, 500);
+  }
+
+  private stopUpdateLoop() {
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval);
+      this.updateInterval = null;
+    }
+  }
+
+  private updateLiveStats() {
+    const elapsedMinutes = this.timer.getSeconds() / 60;
+    if (elapsedMinutes > 0) {
+      this.stats.wpm = calculateWPM(this.stats.correct, this.totalErrors, elapsedMinutes);
+    }
+    this.accuracy = calculateAccuracy(this.stats.correct, this.stats.correct + this.stats.incorrect);
+  }
+
   private updateCharacterStates(combined: string) {
     this.characterStates = this.targetText.split('').map((char, i) => {
       if (i >= combined.length) return 'pending';
@@ -102,6 +136,10 @@ export class KeyboardFullComponent implements OnInit {
 
   private completeExercise() {
     this.timer.stop();
+    this.stopUpdateLoop();
+    this.isRunning = false;
+
+    this.displayTime = this.timer.format();
 
     setTimeout(() => {
       const message = `Exercício completo!\n` +
@@ -109,7 +147,7 @@ export class KeyboardFullComponent implements OnInit {
         `WPM: ${this.stats.wpm}\n` +
         `Erros totais: ${this.totalErrors}\n` +
         `Caracteres corretos: ${this.stats.correct}\n` +
-        `Tempo: ${this.timer.format()}`;
+        `Tempo: ${this.displayTime}`;
       alert(message);
       this.resetExercise();
     }, 300);
@@ -117,7 +155,9 @@ export class KeyboardFullComponent implements OnInit {
 
   resetExercise() {
     this.timer.reset();
-
+    this.stopUpdateLoop();
+    this.isRunning = false;
+    this.displayTime = '00:00';
     this.targetText = this.randomExercise();
     this.typedText = '';
     this.fullTyped = '';
