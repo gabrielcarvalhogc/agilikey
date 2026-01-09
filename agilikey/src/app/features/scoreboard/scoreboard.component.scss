@@ -1,0 +1,126 @@
+:host ::ng-deep .modal {
+  .p-dialog-header {
+    border-bottom: none;
+    padding: 1rem;
+
+    .p-dialog-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fefefe;
+      padding-left: 1rem;
+    }
+  }
+
+  .p-dialog-content {
+    border-radius: 16px;
+  }
+}
+
+.result-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .5rem;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #f1f5f9;
+      }
+
+      .stat-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .icon {
+          color: #94a3b8;
+          font-size: 1.1rem;
+        }
+
+        .error-icon {
+          color: #ef4444;
+        }
+
+        .label {
+          font-weight: 500;
+          color: #64748b;
+          font-size: 0.95rem;
+        }
+      }
+
+      .value {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #334155;
+
+        &.error-val {
+          color: #ef4444;
+        }
+      }
+
+      &.highlight {
+        background: linear-gradient(90deg, #eff6ff 0%, #ffffff 100%); // Gradiente sutil
+        border: 1px solid #dbeafe;
+        padding: .75rem;
+
+        .icon-box {
+          background-color: #3b82f6;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          i { color: white; font-size: 0.9rem; }
+        }
+
+        .label { color: #1e40af; font-weight: 600; }
+        .value { color: #1e40af; font-size: 1.5rem; }
+      }
+    }
+  }
+
+  ::ng-deep p-divider {
+    margin: 0;
+  }
+
+  .footer-action {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+
+    .keys-info {
+      margin-bottom: 1.5rem;
+      color: #94a3b8;
+      font-size: 0.85rem;
+
+      strong {
+        color: #475569;
+        letter-spacing: 2px;
+      }
+    }
+
+    ::ng-deep .p-button {
+      width: 100%;
+      border-radius: 8px;
+      font-weight: bold;
+      color: #fefefe;
+      border: none;
+      background: #3e444d;
+    }
+  }
+}

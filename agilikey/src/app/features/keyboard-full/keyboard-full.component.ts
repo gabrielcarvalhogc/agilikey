@@ -1,19 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TypingStats } from '../../shared/keyboard/key-types';
 import { SimpleKeyboardComponent } from "../simple-keyboard/simple-keyboard.component";
 import { TimerService } from '../../services/TimerService';
 import { calculateAccuracy, calculateWPM } from '../../shared/utils/calculateStats';
+import { ScoreboardComponent } from "../scoreboard/scoreboard.component";
 
 @Component({
   selector: 'app-keyboard-full',
   standalone: true,
-  imports: [CommonModule, FormsModule, SimpleKeyboardComponent],
+  imports: [CommonModule, FormsModule, SimpleKeyboardComponent, ScoreboardComponent],
   templateUrl: './keyboard-full.component.html',
   styleUrl: './keyboard-full.component.scss',
 })
 export class KeyboardFullComponent implements OnInit, OnDestroy {
+  @ViewChild('scoreboard') scoreboard!: ScoreboardComponent;
+
   targetText = '';
   typedText = '';
   fullTyped = '';
@@ -138,19 +141,16 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     this.timer.stop();
     this.stopUpdateLoop();
     this.isRunning = false;
-
     this.displayTime = this.timer.format();
 
-    setTimeout(() => {
-      const message = `Exercício completo!\n` +
-        `Precisão: ${this.accuracy}%\n` +
-        `WPM: ${this.stats.wpm}\n` +
-        `Erros totais: ${this.totalErrors}\n` +
-        `Caracteres corretos: ${this.stats.correct}\n` +
-        `Tempo: ${this.displayTime}`;
-      alert(message);
-      this.resetExercise();
-    }, 300);
+    this.scoreboard.visible = true;
+    this.scoreboard.showDialog({
+      wpm: this.stats.wpm,
+      accuracy: this.accuracy,
+      tempo: this.displayTime,
+      incorrect: this.totalErrors,
+    });
+    this.resetExercise();
   }
 
   resetExercise() {
@@ -162,6 +162,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     this.typedText = '';
     this.fullTyped = '';
     this.currentIndex = 0;
+    this.accuracy = 100;
     this.stats = { correct: 0, incorrect: 0, wpm: 0 };
     this.characterStates = new Array(this.targetText.length).fill('pending');
     this.totalErrors = 0;

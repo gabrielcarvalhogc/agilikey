@@ -1,0 +1,62 @@
+
+<div class="card flex justify-center">
+  <p-dialog
+    header="Resultado do Exercício"
+    [modal]="true"
+    [(visible)]="visible"
+    [draggable]="false"
+    [resizable]="false"
+    styleClass="modal"
+    [style]="{ width: '40rem' }"
+    [dismissableMask]="true"
+  >
+    <div class="result-content">
+
+      <div class="stats-list">
+
+        <div class="stat-row highlight">
+          <div class="stat-info">
+            <div class="icon-box">
+              <i class="pi pi-trophy"></i>
+            </div>
+            <span class="label">Palavras por minuto:</span>
+          </div>
+          <span class="value">{{stats.wpm}} PPM</span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-info">
+            <i class="pi pi-check-circle icon"></i>
+            <span class="label">Precisão:</span>
+          </div>
+          <span class="value">{{stats.accuracy}}%</span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-info">
+            <i class="pi pi-stopwatch icon"></i>
+            <span class="label">Tempo</span>
+          </div>
+          <span class="value">{{stats.tempo}}</span>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-info">
+            <i class="pi pi-times icon error-icon"></i>
+            <span class="label">Erros</span>
+          </div>
+          <span class="value error-val">{{stats.incorrect}}</span>
+        </div>
+
+      </div>
+
+      <p-divider></p-divider>
+
+      <div class="footer-action">
+        <p class="keys-info">Teclas: <strong>A S D F J K L Ç</strong></p>
+        <p-button (onClick)="reset()" label="Tentar novamente" styleClass="w-full" size="large"></p-button>
+      </div>
+
+    </div>
+  </p-dialog>
+</div>
