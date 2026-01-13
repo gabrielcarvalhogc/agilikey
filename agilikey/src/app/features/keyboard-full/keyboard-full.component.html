@@ -2,33 +2,33 @@
   <div class="stats-panel">
     <div class="stat">
       <span class="stat-label">Corretas:</span>
-      <span class="stat-value correct">{{ stats.correct }}</span>
+      <span class="stat-value correct">{{ stats().correct }}</span>
     </div>
     <div class="stat">
       <span class="stat-label">Erros:</span>
-      <span class="stat-value incorrect">{{ stats.incorrect }}</span>
+      <span class="stat-value incorrect">{{ stats().incorrect }}</span>
     </div>
     <div class="stat">
       <span class="stat-label">Precisão:</span>
-      <span class="stat-value">{{ accuracy }}%</span>
+      <span class="stat-value">{{ accuracy() }}%</span>
     </div>
     <div class="stat">
       <span class="stat-label">PPM:</span>
-      <span class="stat-value">{{ stats.wpm }}</span>
+      <span class="stat-value">{{ stats().wpm }}</span>
     </div>
     <div class="stat">
       <span class="stat-label">Tempo: </span>
-      <span class="stat-value">{{ displayTime }}</span>
+      <span class="stat-value">{{ displayTime() }}</span>
     </div>
-    <button class="reset-btn" (click)="resetExercise()">Reiniciar Exercício</button>
+    <button class="reset-btn" (click)="resetExercise()">Novo Exercício</button>
   </div>
 
   <div class="practice-area">
     <div class="target-text">
-      @for (char of targetText.split(''); track $index) {
+      @for (char of targetChars(); track $index) {
         <span
-          [class.correct]="characterStates[$index] === 'correct'"
-          [class.incorrect]="characterStates[$index] === 'incorrect'"
+          [class.correct]="characterStates()[$index] === 'correct'"
+          [class.incorrect]="characterStates()[$index] === 'incorrect'"
           [class.current]="$index === currentIndex">
           {{ char === ' ' ? '\u00A0' : char }}
         </span>
