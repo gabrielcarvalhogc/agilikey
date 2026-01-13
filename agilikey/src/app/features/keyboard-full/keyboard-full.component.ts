@@ -1,11 +1,13 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { TypingStats } from '../../shared/keyboard/key-types';
 import { SimpleKeyboardComponent } from "../simple-keyboard/simple-keyboard.component";
 import { TimerService } from '../../services/TimerService';
 import { calculateAccuracy, calculateWPM } from '../../shared/utils/calculateStats';
 import { ScoreboardComponent } from "../scoreboard/scoreboard.component";
+import { ExerciseService } from '../../services/ExerciseService';
 
 @Component({
   selector: 'app-keyboard-full',
@@ -16,6 +18,9 @@ import { ScoreboardComponent } from "../scoreboard/scoreboard.component";
 })
 export class KeyboardFullComponent implements OnInit, OnDestroy {
   @ViewChild('scoreboard') scoreboard!: ScoreboardComponent;
+
+  private readonly exerciseService = inject(ExerciseService);
+  private exerciseSubscription?: Subscription;
 
   targetText = '';
   typedText = '';
@@ -32,25 +37,20 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
   private updateInterval: any;
   private isRunning = false;
 
-  private readonly exercises = [
-    'O rato roeu a roupa do rei de Roma',
-    'A prática leva à perfeição',
-    'Devagar e sempre se vai longe',
-    'Quem tem boca vai a Roma',
-    'Mais vale um pássaro na mão que dois voando',
-    'Água mole em pedra dura tanto bate até que fura',
-  ];
-
-  constructor(
-    readonly timer: TimerService
-  ) {}
+  constructor(readonly timer: TimerService) { }
 
   ngOnInit() {
-    this.resetExercise();
+    this.exerciseSubscription = this.exerciseService.currentExercise$.subscribe(ex => {
+      this.targetText = ex.text;
+      this.resetExercise();
+    });
   }
 
   ngOnDestroy() {
     this.stopUpdateLoop();
+    if (this.exerciseSubscription) {
+      this.exerciseSubscription.unsubscribe();
+    }
   }
 
   onInputChange() {
@@ -93,7 +93,6 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
 
   private startUpdateLoop() {
     this.stopUpdateLoop();
-
     this.updateInterval = setInterval(() => {
       this.displayTime = this.timer.format();
       this.updateLiveStats();
@@ -131,10 +130,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
 
   private shouldClearInput(): boolean {
     const lastChar = this.typedText.at(-1);
-    const hasErrors = this.characterStates
-      .slice(0, this.fullTyped.length + this.typedText.length)
-      .includes('incorrect');
-    return lastChar === ' ' && !hasErrors;
+    return lastChar === ' ';
   }
 
   private completeExercise() {
@@ -158,7 +154,6 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     this.stopUpdateLoop();
     this.isRunning = false;
     this.displayTime = '00:00';
-    this.targetText = this.randomExercise();
     this.typedText = '';
     this.fullTyped = '';
     this.currentIndex = 0;
@@ -168,9 +163,5 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     this.totalErrors = 0;
     this.previousLength = 0;
     this.totalKeystrokesTyped = 0;
-  }
-
-  private randomExercise() {
-    return this.exercises[Math.floor(Math.random() * this.exercises.length)];
   }
 }

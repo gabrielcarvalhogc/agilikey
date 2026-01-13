@@ -1,8 +1,12 @@
 <aside>
   <ul>
     <li><i class="pi pi-user"></i> Login</li>
-    <li><i class="pi pi-question-circle"></i>Como usar</li>
-    <li><i class="pi pi-play"></i>Exercicio 1</li>
-    <li><i class="pi pi-play"></i>Exercicio 2</li>
+    <li><i class="pi pi-question-circle"></i> Como usar</li>
+
+    @for (ex of exercises; track ex.id) {
+      <li (click)="onSelectExercise(ex)" style="cursor: pointer;">
+        <i class="pi pi-play"></i> {{ ex.title }}
+      </li>
+    }
   </ul>
 </aside>
