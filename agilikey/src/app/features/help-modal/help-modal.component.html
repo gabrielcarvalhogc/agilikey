@@ -1,0 +1,52 @@
+<p-dialog header="Guia de Digitação: Posição Inicial" [(visible)]="displayModal" [modal]="true"
+  [style]="{width: '90vw', maxWidth: '850px'}" [draggable]="false" [resizable]="false" [closeOnEscape]="true"
+  [dismissableMask]="true" styleClass="modern-help-dialog">
+
+  <h3 class="help-title">A Posição Base (Home Row)</h3>
+  <p class="help-description">Para digitar com velocidade e sem olhar, seus dedos devem sempre descansar na linha central do teclado.</p>
+
+  <div class="help-container">
+    <div class="image-section">
+      <div class="image-wrapper">
+        <img src="assets/images/keyboard-example.png" alt="Posicionamento correto dos dedos no teclado"
+          class="guide-image">
+      </div>
+      <p class="image-caption">As cores mostram as teclas correspondentes de cada dedo.</p>
+    </div>
+
+    <div class="text-section">
+
+      <div class="instruction-list">
+        <div class="instruction-item">
+          <i class="pi pi-angle-right highlight-icon"></i>
+          <div>
+            <strong>Mão Esquerda:</strong> Posicione os dedos mindinho, anelar, médio e indicador nas teclas
+            <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd>.
+          </div>
+        </div>
+        <div class="instruction-item">
+          <i class="pi pi-angle-right highlight-icon"></i>
+          <div>
+            <strong>Mão Direita:</strong> Posicione os dedos indicador, médio, anelar e mindinho nas teclas <kbd>J</kbd>
+            <kbd>K</kbd> <kbd>L</kbd> <kbd>Ç</kbd>.
+          </div>
+        </div>
+        <div class="instruction-item">
+          <i class="pi pi-angle-right highlight-icon"></i>
+          <div>
+            <strong>Polegares:</strong> Descanse ambos suavemente sobre a barra de <kbd>Espaço</kbd>.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="pro-tip box">
+    <i class="pi pi-star-fill tip-icon"></i>
+    <div>
+      <strong>Dica Profissional:</strong> Sinta as pequenas saliências nas teclas <strong>F</strong> e
+      <strong>J</strong>. Elas servem como guias táteis para encontrar a posição inicial sem precisar olhar para o
+      teclado!
+    </div>
+  </div>
+</p-dialog>

@@ -1,12 +1,32 @@
-<aside>
-  <ul>
-    <li><i class="pi pi-user"></i> Login</li>
-    <li><i class="pi pi-question-circle"></i> Como usar</li>
+<aside class="sidebar">
+  <nav aria-label="Menu Principal">
+    <ul class="menu-list">
 
-    @for (ex of exercises; track ex.id) {
-      <li (click)="onSelectExercise(ex)" style="cursor: pointer;">
-        <i class="pi pi-play"></i> {{ ex.title }}
+      <li>
+        <button type="button">
+          <i class="pi pi-user" aria-hidden="true"></i>
+          <span>Login</span>
+        </button>
       </li>
-    }
-  </ul>
+
+      <li>
+        <button type="button" (click)="showHelpModal()">
+          <i class="pi pi-question-circle" aria-hidden="true"></i>
+          <span>Como usar</span>
+        </button>
+      </li>
+
+      @for (ex of exercises; track ex.id) {
+      <li>
+        <button type="button" (click)="onSelectExercise(ex)">
+          <i class="pi pi-play" aria-hidden="true"></i>
+          <span>{{ ex.title }}</span>
+        </button>
+      </li>
+      }
+
+    </ul>
+  </nav>
+
+  <app-help-modal #helpModal></app-help-modal>
 </aside>
