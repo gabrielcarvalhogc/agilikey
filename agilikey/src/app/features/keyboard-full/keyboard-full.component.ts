@@ -23,6 +23,8 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
   private readonly exerciseService = inject(ExerciseService);
   private exerciseSubscription?: Subscription;
 
+  private currentExerciseConfig: any = null;
+
   stats = signal<TypingStats>({ correct: 0, incorrect: 0, wpm: 0 });
   displayTime = signal<string>('00:00');
 
@@ -50,9 +52,8 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.exerciseSubscription = this.exerciseService.currentExercise$.subscribe(ex => {
-      this.targetText = ex.text;
-      this.targetChars.set(ex.text.split(''));
-      this.resetExercise();
+      this.currentExerciseConfig = ex;
+      this.setupNewRound();
     });
   }
 
@@ -162,6 +163,28 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     return lastChar === ' ';
   }
 
+  private selectRandomTextVariation(config: any): string {
+    if (!config?.text) return '';
+
+    if (Array.isArray(config.text)) {
+      const randomIndex = Math.floor(Math.random() * config.text.length);
+      return config.text[randomIndex];
+    }
+
+    return config.text;
+  }
+
+  setupNewRound() {
+    if (!this.currentExerciseConfig) return;
+
+    this.targetText = this.selectRandomTextVariation(this.currentExerciseConfig);
+
+    this.targetChars.set(this.targetText.split(''));
+    this.characterStates.set(new Array(this.targetText.length).fill('pending'));
+
+    this.resetExercise();
+  }
+
   private completeExercise() {
     this.timer.stop();
     this.stopUpdateLoop();
@@ -175,7 +198,7 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
       tempo: this.displayTime(),
       incorrect: this.totalErrors,
     });
-    this.resetExercise();
+    this.setupNewRound();
   }
 
   resetExercise() {
@@ -187,9 +210,12 @@ export class KeyboardFullComponent implements OnInit, OnDestroy {
     this.fullTyped = '';
     this.currentIndex = 0;
     this.stats.set({ correct: 0, incorrect: 0, wpm: 0 });
-    this.characterStates.set(new Array(this.targetText.length).fill('pending'));
     this.totalErrors = 0;
     this.previousLength = 0;
     this.totalKeystrokesTyped = 0;
+
+    if (this.targetText) {
+      this.characterStates.set(new Array(this.targetText.length).fill('pending'));
+    }
   }
 }
