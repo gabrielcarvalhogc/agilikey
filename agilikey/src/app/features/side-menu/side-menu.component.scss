@@ -1,31 +1,37 @@
-aside {
+.sidebar {
+  width: 100%;
 
-  ul {
-    list-style: none;
-    color: #cccccc67;
+  nav {
+    width: 95%;
+    margin-top: 20px;
 
-    li {
-      padding: 8px;
-      border-bottom: 1px solid #cccccc67;
-      font-size: 14px;
+    ul {
+      list-style: none;
+      color: #cccccc67;
 
-      button {
-        background-color: transparent;
-        border: none;
-        width: 100%;
-        text-align: left;
-        cursor: pointer;
+      li {
+        padding: 14px;
+        border-bottom: 2px solid #cccccc67;
 
-        i {
-          margin-right: 4px;
-          font-size: 12px;
+        button {
+          font-size: 24px;
+          background-color: transparent;
+          border: none;
+          width: 100%;
+          text-align: left;
+          cursor: pointer;
+
+          i {
+            margin-right: 4px;
+            font-size: 24px;
+          }
         }
       }
-    }
 
-    li:hover {
-      color: #ccccccbe;
-      scale: 1.05;
+      li:hover {
+        color: #ccccccbe;
+        scale: 1.05;
+      }
     }
   }
 }

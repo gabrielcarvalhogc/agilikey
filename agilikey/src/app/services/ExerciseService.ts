@@ -13,7 +13,7 @@ private readonly exercises: Exercise[] = [
       title: 'Exercício simples',
       text: [
         'a s d f j k l ç aa ss dd ff jj kk ll çç as df jk lç sa fd kj çl asdf jklç fdsa çlkj çala sala fasa lasça salsa safada fala çasa lasça',
-        'ala sala fala dala jaça faça çada dada fada laça saça vala çala assa lassa fafa jaja kaka lala',
+        'ala sala fala dala jaça faça çada dada fada laça saça kala çala assa lassa fafa jaja kaka lala',
         'aj sk dl fç ja ks ld çf asdf çlkj ajs skd dlf fçl alak saka dala faja lasa'
       ],
       description: 'Teclas A S D F J K L Ç'

@@ -1,6 +1,7 @@
 .keyboard-full-container {
-  width: 60vw;
-  margin: 0 auto;
+  margin-top: 30px;
+  width: 72vw;
+  height: auto;
   padding: 10px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #2a2a2a;
@@ -10,17 +11,17 @@
 .stats-panel {
   display: flex;
   justify-content: space-around;
-  margin-bottom: 10px;
-  padding: 10px;
+  margin: 10px 0;
+  padding: 20px;
   background: #1a1a1a;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
 .typing-input {
   width: 100%;
-  height: 30px;
-  padding: 10px;
-  font-size: 16px;
+  height: 10%;
+  padding: 15px;
+  font-size: 24px;
   border: 2px solid #444;
   border-radius: 6px;
   background: #333;
@@ -35,7 +36,7 @@
 .stat-label {
   display: block;
   color: #888;
-  font-size: 12px;
+  font-size: 24px;
   margin-bottom: 5px;
   text-transform: uppercase;
 }
@@ -43,7 +44,7 @@
 .stat-value {
   display: block;
   color: #fff;
-  font-size: 20px;
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -56,19 +57,20 @@
 }
 
 .practice-area {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  padding: 20px 5px;
   text-align: center;
 }
 
 .target-text {
   background: #1a1a1a;
-  padding: 20px;
-  border-radius: 8px;
-  font-size: 14px;
+  padding: 25px;
+  border-radius: 12px;
+  font-size: 26px;
   font-family: 'Courier New', monospace;
   letter-spacing: 2px;
   line-height: 1.8;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   min-height: 100px;
   display: flex;
   flex-wrap: wrap;
@@ -113,113 +115,13 @@
   border: none;
   padding: 5px 12px;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 22px;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .reset-btn:hover {
   background: #2c3036;
-}
-
-.keyboard {
-  background: #3a3a3a;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.keyboard-row {
-  max-width: 100%;
-  display: flex;
-  gap: 3px;
-  margin-bottom: 3px;
-  justify-content: center;
-}
-
-.key {
-  background: #4a4a4a;
-  border: 2px solid #5a5a5a;
-  border-radius: 6px;
-  padding: 10px 6px;
-  min-width: 40px;
-  height: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.1s;
-  position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.key-upper {
-  font-size: 10px;
-  color: #cacaca;
-  position: absolute;
-  top: 1px;
-}
-
-.key-main {
-  font-size: 12px;
-  color: #fff;
-}
-
-.key[data-finger="left-pinky"] {
-  background: #8b7b9e;
-}
-
-.key[data-finger="left-ring"] {
-  background: #7d9e7b;
-}
-
-.key[data-finger="left-middle"] {
-  background: #9e9b5c;
-}
-
-.key[data-finger="left-index"] {
-  background: #c4a853;
-}
-
-.key[data-finger="left-index-extended"] {
-  background: #a89555;
-}
-
-.key[data-finger="thumb"] {
-  background: #c67b7b;
-}
-
-.key[data-finger="right-index-extended"] {
-  background: #5c9aa8;
-}
-
-.key[data-finger="right-index"] {
-  background: #85b596;
-}
-
-.key[data-finger="right-middle"] {
-  background: #bd945f;
-}
-
-.key[data-finger="right-ring"] {
-  background: #b57da3;
-}
-
-.key[data-finger="right-pinky"] {
-  background: #7d9e8a;
-}
-
-.key.pressed {
-  transform: translateY(2px);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  filter: brightness(0.8);
-}
-
-.key.highlight {
-  animation: highlight 0.8s infinite;
-  border-color: #fbbf24;
 }
 
 @keyframes highlight {
