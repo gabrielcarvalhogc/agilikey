@@ -10,16 +10,6 @@ export class ExerciseService {
 private readonly exercises: Exercise[] = [
     {
       id: 1,
-      title: 'Teste',
-      text: [
-        'O rato roeu a roupa do rei de Roma',
-        'A rápida raposa marrom pula sobre o cão preguiçoso',
-        'Um pequeno jabuti xereta viu dez cegonhas felizes'
-      ],
-      description: 'Exercício de teste'
-    },
-    {
-      id: 2,
       title: 'Exercício simples',
       text: [
         'a s d f j k l ç aa ss dd ff jj kk ll çç as df jk lç sa fd kj çl asdf jklç fdsa çlkj çala sala fasa lasça salsa safada fala çasa lasça',
@@ -29,7 +19,7 @@ private readonly exercises: Exercise[] = [
       description: 'Teclas A S D F J K L Ç'
     },
     {
-      id: 3,
+      id: 2,
       title: 'Teclas G e H',
       text: [
         'g g g g h h h h gh hg gh hg gg hh fg gf dg sg jh hj kh lh çh as df jk lç sa fd hg kj çl asdfg gh hjklç fdsa hg çlkj çala faga sala lasça salsa safada falas hagas çalgas',
@@ -39,7 +29,7 @@ private readonly exercises: Exercise[] = [
       description: 'Acrescentando as teclas G H'
     },
     {
-      id: 4,
+      id: 3,
       title: 'Teclas E e I',
       text: [
         'e e e e i i i i ei ie ei ie ee ii fe ef de ed se es ki ik li il çi iç dede sede fefe kiki lili lele dide sidi fiji elise seide lide glide',
@@ -49,7 +39,7 @@ private readonly exercises: Exercise[] = [
       description: 'Acrescentando as teclas E e I (dedos médios)'
     },
     {
-      id: 5,
+      id: 4,
       title: 'Teclas R e U',
       text: [
         'r r r r u u u u ru ur ru ur rr uu fr rf dr rd sr rs ju uj ku uk lu ul çu uç rua rudo rude fura jura lura sura urso ruge ruga rugas fugas',
@@ -59,7 +49,7 @@ private readonly exercises: Exercise[] = [
       description: 'Acrescentando as teclas R e U (dedos indicadores)'
     },
     {
-      id: 6,
+      id: 5,
       title: 'Teclas T e Y',
       text: [
         't t t t y y y y ty yt ty yt tt yy ft tf dt td st ts jy yj ky yk ly yl çy yç tato teto tudo tido tuas tuas rute rita tati tatu tutu yeti',
@@ -67,6 +57,22 @@ private readonly exercises: Exercise[] = [
         'tudo isto e teu trata de tudo tente ter tato na lida o teto caiu o tio riu a tia viu'
       ],
       description: 'Acrescentando as teclas T e Y (extensão dos indicadores)'
+    },
+    {
+      id: 6,
+      title: 'Exercício livre',
+      text: [
+        'Hoje, o dia está lindo para caminhar no parque e tomar uma água de coco bem gelada!',
+        'Preciso ir ao mercado comprar: pão, leite, ovos, manteiga e café para o café da manhã.',
+        'O cachorro correu atrás da bola e brincou muito com as crianças no jardim de casa; foi uma festa.',
+        'O sucesso nasce do querer, da determinação e da persistência em se chegar a um objetivo.',
+        'Não deixe que o medo de errar te impeça de tentar, voar alto e alcançar seus sonhos!',
+        'A persistência é o caminho do êxito; lembre-se: cada erro é apenas uma chance de aprender mais.',
+        'Minha terra tem palmeiras, Onde canta o Sabiá; As aves, que aqui gorjeiam, Não gorjeiam como lá.',
+        'Amor é fogo que arde sem se ver, é ferida que dói e não se sente; é um contentamento descontente.',
+        'Tudo vale a pena se a alma não é pequena. Quem quer passar além do Bojador, tem que passar além da dor.'
+      ],
+      description: 'Exercício livre para praticar todas as teclas'
     }
   ];
   private readonly currentExerciseSubject = new BehaviorSubject<Exercise>(this.exercises[0]);
